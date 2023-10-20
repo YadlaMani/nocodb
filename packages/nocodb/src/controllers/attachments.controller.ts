@@ -60,14 +60,12 @@ export class AttachmentsController {
   // This route will match any URL that starts with
   async fileRead(@Param('filename') filename: string, @Response() res) {
     try {
-      const { img, type } = await this.attachmentsService.fileRead({
+      const { img } = await this.attachmentsService.fileRead({
         path: path.join('nc', 'uploads', filename),
       });
 
-      res.writeHead(200, { 'Content-Type': type });
-      res.end(img, 'binary');
+      res.sendFile(img);
     } catch (e) {
-      console.log(e);
       res.status(404).send('Not found');
     }
   }
@@ -82,7 +80,7 @@ export class AttachmentsController {
     @Response() res,
   ) {
     try {
-      const { img, type } = await this.attachmentsService.fileRead({
+      const { img } = await this.attachmentsService.fileRead({
         path: path.join(
           'nc',
           param1,
@@ -92,8 +90,7 @@ export class AttachmentsController {
         ),
       });
 
-      res.writeHead(200, { 'Content-Type': type });
-      res.end(img, 'binary');
+      res.sendFile(img);
     } catch (e) {
       res.status(404).send('Not found');
     }
